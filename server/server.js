@@ -11,14 +11,14 @@ const app = express();
 connectDB();
 
 // CORS
-const allowedOrigins = [
-    'http://localhost:5173',
-    process.env.CLIENT_URL,
-].filter(Boolean)
-
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        const allowedOrigins = [
+            'http://localhost:5173',
+            process.env.CLIENT_URL,
+        ].filter(Boolean)
+
+        if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
             callback(null, true)
         } else {
             callback(new Error('Not allowed by CORS'))
